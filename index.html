@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เว็บกระทู้ส่วนตัว</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">🗨️ กระทู้</h1>
+      <div class="nav-right">
+        <input type="text" id="searchInput" class="search-box" placeholder="ค้นหากระทู้..." />
+        <div class="user-section">
+          <span id="userName" class="user-name">ผู้ใช้</span>
+          <button id="userBtn" class="user-btn">👤</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- User Modal -->
+    <div id="userModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>ชื่อผู้ใช้</h2>
+          <button id="closeUserModal" class="close-btn">&times;</button>
+        </div>
+        <input type="text" id="userNameInput" class="input-field" placeholder="ใส่ชื่อผู้ใช้" />
+        <button id="saveUserBtn" class="btn btn-primary">บันทึก</button>
+      </div>
+    </div>
+
+    <!-- Create Thread Modal -->
+    <div id="createThreadModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>สร้างกระทู้ใหม่</h2>
+          <button id="closeCreateModal" class="close-btn">&times;</button>
+        </div>
+        <input type="text" id="threadTitleInput" class="input-field" placeholder="หัวข้อกระทู้" />
+        <textarea id="threadBodyInput" class="input-field" placeholder="เนื้อหากระทู้" rows="6"></textarea>
+        <button id="submitThreadBtn" class="btn btn-primary">สร้างกระทู้</button>
+      </div>
+    </div>
+
+    <!-- Home Page -->
+    <section id="homePage" class="page active">
+      <div class="page-header">
+        <h2>กระทู้ทั้งหมด</h2>
+        <button id="newThreadBtn" class="btn btn-primary">+ สร้างกระทู้ใหม่</button>
+      </div>
+
+      <div class="threads-list" id="threadsList">
+        <!-- Threads will be rendered here -->
+      </div>
+
+      <div id="noThreads" class="empty-state">
+        <p>🎉 ยังไม่มีกระทู้ ลองสร้างกระทู้ใหม่!</p>
+      </div>
+    </section>
+
+    <!-- Thread Detail Page -->
+    <section id="threadPage" class="page hidden">
+      <button id="backBtn" class="btn btn-secondary">← กลับ</button>
+      
+      <article class="thread-detail">
+        <h1 id="detailTitle"></h1>
+        <p class="thread-meta" id="detailMeta"></p>
+        <div class="thread-body" id="detailBody"></div>
+        
+        <div class="thread-actions">
+          <button id="editThreadBtn" class="btn btn-secondary">แก้ไข</button>
+          <button id="deleteThreadBtn" class="btn btn-danger">ลบ</button>
+        </div>
+      </article>
+
+      <!-- Comments Section -->
+      <section class="comments-section">
+        <h3>ความเห็น (<span id="commentCount">0</span>)</h3>
+        
+        <div class="comments-list" id="commentsList">
+          <!-- Comments will be rendered here -->
+        </div>
+
+        <div class="add-comment">
+          <textarea id="commentInput" class="input-field" placeholder="เขียนความเห็นของคุณ..." rows="4"></textarea>
+          <button id="submitCommentBtn" class="btn btn-primary">ตอบความเห็น</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
