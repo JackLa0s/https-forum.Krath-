@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เว็บกระทู้ส่วนตัว</title>
+  <title>กระทู้ Krathû</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -21,7 +21,6 @@
   </nav>
 
   <main class="container">
-    <!-- User Modal -->
     <div id="userModal" class="modal hidden">
       <div class="modal-content">
         <div class="modal-header">
@@ -33,7 +32,6 @@
       </div>
     </div>
 
-    <!-- Create Thread Modal -->
     <div id="createThreadModal" class="modal hidden">
       <div class="modal-content">
         <div class="modal-header">
@@ -46,45 +44,31 @@
       </div>
     </div>
 
-    <!-- Home Page -->
     <section id="homePage" class="page active">
       <div class="page-header">
         <h2>กระทู้ทั้งหมด</h2>
         <button id="newThreadBtn" class="btn btn-primary">+ สร้างกระทู้ใหม่</button>
       </div>
-
-      <div class="threads-list" id="threadsList">
-        <!-- Threads will be rendered here -->
-      </div>
-
-      <div id="noThreads" class="empty-state">
+      <div class="threads-list" id="threadsList"></div>
+      <div id="noThreads" class="empty-state" style="display:none">
         <p>🎉 ยังไม่มีกระทู้ ลองสร้างกระทู้ใหม่!</p>
       </div>
     </section>
 
-    <!-- Thread Detail Page -->
     <section id="threadPage" class="page hidden">
       <button id="backBtn" class="btn btn-secondary">← กลับ</button>
-      
       <article class="thread-detail">
         <h1 id="detailTitle"></h1>
         <p class="thread-meta" id="detailMeta"></p>
         <div class="thread-body" id="detailBody"></div>
-        
         <div class="thread-actions">
           <button id="editThreadBtn" class="btn btn-secondary">แก้ไข</button>
           <button id="deleteThreadBtn" class="btn btn-danger">ลบ</button>
         </div>
       </article>
-
-      <!-- Comments Section -->
       <section class="comments-section">
         <h3>ความเห็น (<span id="commentCount">0</span>)</h3>
-        
-        <div class="comments-list" id="commentsList">
-          <!-- Comments will be rendered here -->
-        </div>
-
+        <div class="comments-list" id="commentsList"></div>
         <div class="add-comment">
           <textarea id="commentInput" class="input-field" placeholder="เขียนความเห็นของคุณ..." rows="4"></textarea>
           <button id="submitCommentBtn" class="btn btn-primary">ตอบความเห็น</button>
@@ -93,6 +77,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
