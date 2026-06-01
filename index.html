@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="dark">
+<html lang="lo" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Krathû — ชุมชนออนไลน์</title>
+  <title>ກະທູ້ Krathû</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,83 +18,81 @@
         <span class="logo-text">Krathû</span>
       </div>
       <div class="nav-center">
-        <input type="text" id="searchInput" class="search-box" placeholder="ค้นหากระทู้..." />
+        <input type="text" id="searchInput" class="search-box" placeholder="ຄົ້ນຫາກະທູ້..." />
       </div>
       <div class="nav-right">
-        <button class="theme-toggle" id="themeToggle" title="เปลี่ยนธีม">🌙</button>
-        <button class="nav-btn" onclick="showPage('profile')">👤 โปรไฟล์</button>
-        <button class="nav-btn btn-primary" onclick="openCreateModal()">+ โพสต์</button>
+        <button class="theme-toggle" id="themeToggle" title="ປ່ຽນໂຕມ">🌙</button>
+        <button class="nav-btn" onclick="showPage('profile')">👤 ໂປຣໄຟລ໌</button>
+        <button class="nav-btn btn-primary" onclick="openCreateModal()">+ ໂພສ</button>
       </div>
     </div>
   </nav>
 
-  <!-- SIDEBAR + MAIN LAYOUT -->
   <div class="layout">
-
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-section">
-        <div class="sidebar-title">หมวดหมู่</div>
+        <div class="sidebar-title">ໝວດໝູ່</div>
         <div class="category-list">
-          <div class="cat-item active" data-cat="all" onclick="filterCategory('all')">
-            <span class="cat-icon">🏠</span> ทั้งหมด
-          </div>
-          <div class="cat-item" data-cat="game" onclick="filterCategory('game')">
-            <span class="cat-icon">🎮</span> เกม
-          </div>
-          <div class="cat-item" data-cat="anime" onclick="filterCategory('anime')">
-            <span class="cat-icon">⛩️</span> อนิเมะ/มังงะ
-          </div>
-          <div class="cat-item" data-cat="movie" onclick="filterCategory('movie')">
-            <span class="cat-icon">🎬</span> ภาพยนตร์/ซีรีส์
-          </div>
-          <div class="cat-item" data-cat="tech" onclick="filterCategory('tech')">
-            <span class="cat-icon">💻</span> เทคโนโลยี
-          </div>
-          <div class="cat-item" data-cat="other" onclick="filterCategory('other')">
-            <span class="cat-icon">💬</span> อื่นๆ
-          </div>
+          <div class="cat-item active" data-cat="all" onclick="filterCategory('all')"><span class="cat-icon">🏠</span> ທັງໝົດ</div>
+          <div class="cat-item" data-cat="game" onclick="filterCategory('game')"><span class="cat-icon">🎮</span> ເກມ</div>
+          <div class="cat-item" data-cat="anime" onclick="filterCategory('anime')"><span class="cat-icon">⛩️</span> ອານິເມະ/ມັງງະ</div>
+          <div class="cat-item" data-cat="movie" onclick="filterCategory('movie')"><span class="cat-icon">🎬</span> ຮູບເງົາ/ຊີຣີສ໌</div>
+          <div class="cat-item" data-cat="tech" onclick="filterCategory('tech')"><span class="cat-icon">💻</span> ເທັກໂນໂລຊີ</div>
+          <div class="cat-item" data-cat="other" onclick="filterCategory('other')"><span class="cat-icon">💬</span> ອື່ນໆ</div>
+          <div class="cat-item" data-cat="news" onclick="showPage('techNews')"><span class="cat-icon">📰</span> ຂ່າວເທັກ</div>
         </div>
       </div>
-
       <div class="sidebar-section">
-        <div class="sidebar-title">🔥 ติดเทรนด์</div>
+        <div class="sidebar-title">🔥 ຕິດເທຣນດ໌</div>
         <div id="trendingList" class="trending-list"></div>
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main-content">
 
-      <!-- HOME PAGE -->
+      <!-- HOME -->
       <section id="homePage" class="page active">
-        <!-- HOT RIGHT NOW -->
         <div class="hot-section">
           <div class="hot-header">
-            <span>🔴 กำลังฮอตตอนนี้</span>
+            <span>🔴 ກຳລັງຮ໋ອດຕອນນີ້</span>
             <span class="live-badge">LIVE</span>
             <span id="hotTimer" class="hot-timer"></span>
           </div>
           <div id="hotList" class="hot-list"></div>
         </div>
-
-        <div class="threads-header">
-          <h2 id="pageTitle">กระทู้ทั้งหมด</h2>
-        </div>
+        <div class="threads-header"><h2 id="pageTitle">ກະທູ້ທັງໝົດ</h2></div>
         <div id="threadsList" class="threads-grid"></div>
-        <div id="noThreads" class="empty-state" style="display:none">
-          <p>🎉 ยังไม่มีกระทู้ ลองสร้างกระทู้ใหม่!</p>
-        </div>
+        <div id="noThreads" class="empty-state" style="display:none"><p>🎉 ຍັງບໍ່ມີກະທູ້ ລອງສ້າງກະທູ້ໃໝ່!</p></div>
       </section>
 
-      <!-- THREAD DETAIL PAGE -->
+      <!-- THREAD DETAIL -->
       <section id="threadPage" class="page">
-        <button class="back-btn" onclick="showPage('home')">← กลับ</button>
+        <button class="back-btn" onclick="showPage('home')">← ກັບຄືນ</button>
         <article class="thread-detail" id="threadDetail"></article>
         <section class="comments-section" id="commentsSection"></section>
       </section>
 
-      <!-- PROFILE PAGE -->
+      <!-- TECH NEWS -->
+      <section id="techNewsPage" class="page">
+        <div class="news-header">
+          <h2>💻 ຂ່າວເທັກໂນໂລຊີ</h2>
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-left:auto">
+            <span id="newsUpdateTime" class="news-update-time"></span>
+            <button class="btn btn-secondary" onclick="loadNews(true)">🔄 ໂຫຼດໃໝ່</button>
+          </div>
+        </div>
+        <div class="news-tabs">
+          <button class="news-tab active" data-ntab="all" onclick="switchNewsTab('all')">ທັງໝົດ</button>
+          <button class="news-tab" data-ntab="world" onclick="switchNewsTab('world')">🌐 ຕ່າງປະເທດ</button>
+        </div>
+        <div id="newsList" class="news-list">
+          <div class="news-loading">⏳ ກຳລັງໂຫຼດຂ່າວ...</div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
       <section id="profilePage" class="page">
         <div class="profile-container" id="profileContainer"></div>
       </section>
@@ -102,47 +100,47 @@
     </main>
   </div>
 
-  <!-- CREATE THREAD MODAL -->
+  <!-- CREATE MODAL -->
   <div id="createModal" class="modal hidden">
     <div class="modal-box">
       <div class="modal-head">
-        <h2>สร้างกระทู้ใหม่</h2>
+        <h2>ສ້າງກະທູ້ໃໝ່</h2>
         <button class="close-btn" onclick="closeCreateModal()">✕</button>
       </div>
       <select id="threadCat" class="input-field">
-        <option value="game">🎮 เกม</option>
-        <option value="anime">⛩️ อนิเมะ/มังงะ</option>
-        <option value="movie">🎬 ภาพยนตร์/ซีรีส์</option>
-        <option value="tech">💻 เทคโนโลยี</option>
-        <option value="other">💬 อื่นๆ</option>
+        <option value="game">🎮 ເກມ</option>
+        <option value="anime">⛩️ ອານິເມະ/ມັງງະ</option>
+        <option value="movie">🎬 ຮູບເງົາ/ຊີຣີສ໌</option>
+        <option value="tech">💻 ເທັກໂນໂລຊີ</option>
+        <option value="other">💬 ອື່ນໆ</option>
       </select>
-      <input type="text" id="threadTitle" class="input-field" placeholder="หัวข้อกระทู้" />
-      <textarea id="threadBody" class="input-field" rows="5" placeholder="เนื้อหา..."></textarea>
-      <div class="image-upload-area" id="imageUploadArea">
+      <input type="text" id="threadTitle" class="input-field" placeholder="ຫົວຂໍ້ກະທູ້" />
+      <textarea id="threadBody" class="input-field" rows="5" placeholder="ເນື້ອຫາ..."></textarea>
+      <div class="image-upload-area">
         <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage(event)" />
-        <button class="upload-btn" onclick="document.getElementById('imageInput').click()">📷 แนบรูปภาพ</button>
+        <button class="upload-btn" onclick="document.getElementById('imageInput').click()">📷 ແນບຮູບພາບ</button>
         <img id="imagePreview" class="image-preview hidden" />
-        <button id="removeImg" class="remove-img hidden" onclick="removeImage()">✕ ลบรูป</button>
+        <button id="removeImg" class="remove-img hidden" onclick="removeImage()">✕ ລຶບຮູບ</button>
       </div>
-      <button class="btn btn-primary full-width" onclick="submitThread()">โพสต์กระทู้</button>
+      <button class="btn btn-primary full-width" onclick="submitThread()">ໂພສກະທູ້</button>
     </div>
   </div>
 
-  <!-- EDIT PROFILE MODAL -->
+  <!-- PROFILE MODAL -->
   <div id="profileModal" class="modal hidden">
     <div class="modal-box">
       <div class="modal-head">
-        <h2>แก้ไขโปรไฟล์</h2>
+        <h2>ແກ້ໄຂໂປຣໄຟລ໌</h2>
         <button class="close-btn" onclick="closeProfileModal()">✕</button>
       </div>
       <div class="avatar-edit">
         <img id="avatarPreview" class="avatar-large" src="" />
         <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(event)" />
-        <button class="upload-btn" onclick="document.getElementById('avatarInput').click()">📷 เปลี่ยนรูป</button>
+        <button class="upload-btn" onclick="document.getElementById('avatarInput').click()">📷 ປ່ຽນຮູບ</button>
       </div>
-      <input type="text" id="profileName" class="input-field" placeholder="ชื่อผู้ใช้" />
-      <textarea id="profileBio" class="input-field" rows="3" placeholder="แนะนำตัวเอง..."></textarea>
-      <button class="btn btn-primary full-width" onclick="saveProfile()">บันทึก</button>
+      <input type="text" id="profileName" class="input-field" placeholder="ຊື່ຜູ້ໃຊ້" />
+      <textarea id="profileBio" class="input-field" rows="3" placeholder="ແນະນຳຕົວເອງ..."></textarea>
+      <button class="btn btn-primary full-width" onclick="saveProfile()">ບັນທຶກ</button>
     </div>
   </div>
 
