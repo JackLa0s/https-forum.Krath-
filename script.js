@@ -231,8 +231,10 @@ function renderThreadDetail(id, t) {
     <div class="detail-body">${escHtml(t.body)}</div>
     ${t.image ? `<img src="${t.image}" class="detail-img" />` : ''}
     <div class="detail-actions">
-      <button class="btn btn-secondary" onclick="editThread('${id}')">✏️ แก้ไข</button>
-      <button class="btn btn-danger" onclick="deleteThread('${id}')">🗑 ลบ</button>
+      ${t.author === profile.name ? `
+        <button class="btn btn-secondary" onclick="editThread('${id}')">✏️ แก้ไข</button>
+        <button class="btn btn-danger" onclick="deleteThread('${id}')">🗑 ลบ</button>
+      ` : '<span style="font-size:0.85rem;color:var(--text3)">กระทู้ของ ' + escHtml(t.author) + '</span>'}
     </div>
   `;
 
