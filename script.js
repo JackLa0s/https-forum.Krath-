@@ -311,34 +311,36 @@ let newsLoaded = false;
 let newsAutoInterval = null;
 
 const RSS_SOURCES = [
-  { name: 'TechCrunch', url: 'https://techcrunch.com/feed/', tab: 'world', flag: '🇺🇸' },
-  { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml', tab: 'world', flag: '🌐' },
-  { name: 'Wired', url: 'https://www.wired.com/feed/rss', tab: 'world', flag: '🌐' },
+  { name: "TechCrunch", url: "https://techcrunch.com/feed/", flag: "🇺🇸" },
+  { name: "The Verge", url: "https://www.theverge.com/rss/index.xml", flag: "🌐" },
+  { name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/technology-lab", flag: "🌐" },
 ];
+
+function parseRSS(xml) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml, "text/xml");
+  const items = [...doc.querySelectorAll("item, entry")];
+  return items.slice(0, 8).map(item => {
+    const get = (tag) => item.querySelector(tag)?.textContent || "";
+    const link = item.querySelector("link")?.textContent || item.querySelector("link")?.getAttribute("href") || "";
+    const img = item.querySelector("media\\:thumbnail, media\\:content, enclosure")?.getAttribute("url") || "";
+    const desc = get("description") || get("summary") || "";
+    return { title: get("title"), desc: desc.replace(/<[^>]+>/g, "").substring(0, 150), url: link, image: img, date: new Date(get("pubDate") || get("published")).toLocaleDateString("lo-LA") };
+  });
+}
 
 window.loadNews = async (force = false) => {
   if (newsLoaded && !force) return;
-  document.getElementById('newsList').innerHTML = '<div class="news-loading">⏳ ກຳລັງໂຫຼດຂ່າວ...</div>';
+  document.getElementById("newsList").innerHTML = "<div class=\"news-loading\">⏳ ກຳລັງໂຫຼດຂ່າວ...</div>";
   newsData = { all: [], world: [] };
-
-  const proxy = 'https://api.rss2json.com/v1/api.json?rss_url=';
   const fetches = RSS_SOURCES.map(async (src) => {
     try {
-      const res = await fetch(proxy + encodeURIComponent(src.url) + '&count=8');
-      const data = await res.json();
-      if (data.status === 'ok' && data.items) {
-        return data.items.map(item => ({
-          title: item.title,
-          desc: item.description?.replace(/<[^>]+>/g,'').substring(0,150) || '',
-          url: item.link,
-          image: item.thumbnail || item.enclosure?.link || '',
-          date: new Date(item.pubDate).toLocaleDateString('lo-LA'),
-          source: src.flag + ' ' + src.name,
-          tab: src.tab
-        }));
-      }
+      const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(src.url);
+      const res = await fetch(proxy);
+      const text = await res.text();
+      const items = parseRSS(text);
+      return items.map(item => ({ ...item, source: src.flag + " " + src.name }));
     } catch(e) { return []; }
-    return [];
   });
 
   const results = await Promise.all(fetches);
