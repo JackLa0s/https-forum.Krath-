@@ -311,8 +311,9 @@ let newsLoaded = false;
 let newsAutoInterval = null;
 
 const RSS_SOURCES = [
-  { name: "KPL ລາວ", url: "https://kpl.net.la/En/rss.aspx", flag: "🇱🇦", tab: "lao" },
-  { name: "Lao News Agency", url: "https://www.laopdr.gov.la/rss.xml", flag: "🇱🇦", tab: "lao" },
+  { name: "RFI ລາວ", url: "https://www.rfi.fr/lo/rss", flag: "🇱🇦", tab: "lao" },
+  { name: "Google News ລາວ", url: "https://news.google.com/rss/search?q=ລາວ&hl=lo&gl=LA&ceid=LA:lo", flag: "🇱🇦", tab: "lao" },
+  { name: "Google News Laos", url: "https://news.google.com/rss/search?q=Laos&hl=en&gl=LA&ceid=LA:en", flag: "🇱🇦", tab: "lao" },
   { name: "TechCrunch", url: "https://techcrunch.com/feed/", flag: "🇺🇸", tab: "world" },
   { name: "The Verge", url: "https://www.theverge.com/rss/index.xml", flag: "🌐", tab: "world" },
   { name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/technology-lab", flag: "🌐", tab: "world" },
@@ -355,8 +356,10 @@ window.loadNews = async (force = false) => {
   newsData.all.sort(() => Math.random() - 0.5);
   newsLoaded = true;
   const now = new Date().toLocaleTimeString('lo-LA');
-  document.getElementById('newsUpdateTime').textContent = `ອັບເດດລ່າສຸດ: ${now}`;
+  const timeEl = document.getElementById('newsUpdateTime');
+  if (timeEl) timeEl.textContent = `ອັບເດດລ່າສຸດ: ${now}`;
   renderNews();
+  renderHomeNews(newsData.all);
 
   // Auto refresh every 10 minutes
   clearInterval(newsAutoInterval);
@@ -368,6 +371,26 @@ window.switchNewsTab = (tab) => {
   document.querySelectorAll('.news-tab').forEach(b => b.classList.toggle('active', b.dataset.ntab === tab));
   renderNews();
 };
+
+function renderHomeNews(items) {
+  const el = document.getElementById('homeNewsList');
+  if (!el) return;
+  if (!items || items.length === 0) {
+    el.innerHTML = '<div class="news-loading" style="padding:1rem">😔 ໂຫຼດຂ່າວບໍ່ໄດ້</div>';
+    return;
+  }
+  el.innerHTML = items.slice(0, 8).map(item => `
+    <a href="${item.url}" target="_blank" rel="noopener" class="home-news-card">
+      ${item.image
+        ? `<img src="${item.image}" class="home-news-card-img" onerror="this.style.display='none'" />`
+        : `<div class="home-news-card-img-placeholder">📰</div>`}
+      <div class="home-news-card-body">
+        <div class="home-news-source">${item.source}</div>
+        <div class="home-news-title">${escHtml(item.title)}</div>
+      </div>
+    </a>
+  `).join('');
+}
 
 function renderNews() {
   const el = document.getElementById('newsList');
@@ -388,6 +411,9 @@ function renderNews() {
     </a>
   `).join('');
 }
+
+// Load news on startup for home page
+loadNews();
 
 function escHtml(text) {
   if (!text) return '';
