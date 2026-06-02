@@ -305,15 +305,17 @@ window.saveProfile = () => {
 };
 
 // ===== TECH NEWS =====
-let newsData = { all: [], world: [] };
+let newsData = { all: [], world: [], lao: [] };
 let currentNewsTab = 'all';
 let newsLoaded = false;
 let newsAutoInterval = null;
 
 const RSS_SOURCES = [
-  { name: "TechCrunch", url: "https://techcrunch.com/feed/", flag: "🇺🇸" },
-  { name: "The Verge", url: "https://www.theverge.com/rss/index.xml", flag: "🌐" },
-  { name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/technology-lab", flag: "🌐" },
+  { name: "KPL ລາວ", url: "https://kpl.net.la/En/rss.aspx", flag: "🇱🇦", tab: "lao" },
+  { name: "Lao News Agency", url: "https://www.laopdr.gov.la/rss.xml", flag: "🇱🇦", tab: "lao" },
+  { name: "TechCrunch", url: "https://techcrunch.com/feed/", flag: "🇺🇸", tab: "world" },
+  { name: "The Verge", url: "https://www.theverge.com/rss/index.xml", flag: "🌐", tab: "world" },
+  { name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/technology-lab", flag: "🌐", tab: "world" },
 ];
 
 function parseRSS(xml) {
@@ -332,21 +334,22 @@ function parseRSS(xml) {
 window.loadNews = async (force = false) => {
   if (newsLoaded && !force) return;
   document.getElementById("newsList").innerHTML = "<div class=\"news-loading\">⏳ ກຳລັງໂຫຼດຂ່າວ...</div>";
-  newsData = { all: [], world: [] };
+  newsData = { all: [], world: [], lao: [] };
   const fetches = RSS_SOURCES.map(async (src) => {
     try {
       const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(src.url);
       const res = await fetch(proxy);
       const text = await res.text();
       const items = parseRSS(text);
-      return items.map(item => ({ ...item, source: src.flag + " " + src.name }));
+      return items.map(item => ({ ...item, source: src.flag + " " + src.name, tab: src.tab || "world" }));
     } catch(e) { return []; }
   });
 
   const results = await Promise.all(fetches);
   results.flat().forEach(item => {
-    newsData.world.push(item);
     newsData.all.push(item);
+    if (item.tab === 'lao') newsData.lao.push(item);
+    else newsData.world.push(item);
   });
 
   newsData.all.sort(() => Math.random() - 0.5);
