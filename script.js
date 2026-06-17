@@ -234,6 +234,16 @@ window.selectCat = (el) => {
   document.getElementById('threadCat').value = el.dataset.val;
 };
 
+// Use event delegation for cat-select-item clicks
+document.addEventListener('click', (e) => {
+  const item = e.target.closest('.cat-select-item');
+  if (item) {
+    document.querySelectorAll('.cat-select-item').forEach(i => i.classList.remove('selected'));
+    item.classList.add('selected');
+    document.getElementById('threadCat').value = item.dataset.val;
+  }
+});
+
 window.openCreateModal = () => {
   pendingImage = null;
   document.getElementById('imagePreview').classList.add('hidden');
