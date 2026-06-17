@@ -114,27 +114,70 @@
 
   <!-- CREATE MODAL -->
   <div id="createModal" class="modal hidden">
-    <div class="modal-box">
+    <div class="modal-box modal-box-large">
       <div class="modal-head">
-        <h2>ສ້າງກະທູ້ໃໝ່</h2>
+        <h2>✏️ ຕັ້ງກະທູ້ໃໝ່</h2>
         <button class="close-btn" onclick="closeCreateModal()">✕</button>
       </div>
-      <select id="threadCat" class="input-field">
-        <option value="game">🎮 ເກມ</option>
-        <option value="anime">⛩️ ອານິເມະ/ມັງງະ</option>
-        <option value="movie">🎬 ຮູບເງົາ/ຊີຣີສ໌</option>
-        <option value="tech">💻 ເທັກໂນໂລຊີ</option>
-        <option value="other">💬 ອື່ນໆ</option>
-      </select>
-      <input type="text" id="threadTitle" class="input-field" placeholder="ຫົວຂໍ້ກະທູ້" />
-      <textarea id="threadBody" class="input-field" rows="5" placeholder="ເນື້ອຫາ..."></textarea>
-      <div class="image-upload-area">
-        <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage(event)" />
-        <button class="upload-btn" onclick="document.getElementById('imageInput').click()">📷 ແນບຮູບພາບ</button>
-        <img id="imagePreview" class="image-preview hidden" />
-        <button id="removeImg" class="remove-img hidden" onclick="removeImage()">✕ ລຶບຮູບ</button>
+
+      <!-- STEP 1: ປະເພດກະທູ້ -->
+      <div class="create-step" id="step1">
+        <div class="step-label"><span class="step-num">1</span> ເລືອກປະເພດກະທູ້</div>
+        <div class="cat-grid">
+          <div class="cat-select-item" data-val="game" onclick="selectCat(this)">
+            <span class="cat-select-icon">🎮</span>
+            <span>ເກມ</span>
+          </div>
+          <div class="cat-select-item" data-val="anime" onclick="selectCat(this)">
+            <span class="cat-select-icon">⛩️</span>
+            <span>ອານິເມະ/ມັງງະ</span>
+          </div>
+          <div class="cat-select-item" data-val="movie" onclick="selectCat(this)">
+            <span class="cat-select-icon">🎬</span>
+            <span>ຮູບເງົາ/ຊີຣີສ໌</span>
+          </div>
+          <div class="cat-select-item" data-val="tech" onclick="selectCat(this)">
+            <span class="cat-select-icon">💻</span>
+            <span>ເທັກໂນໂລຊີ</span>
+          </div>
+          <div class="cat-select-item" data-val="other" onclick="selectCat(this)">
+            <span class="cat-select-icon">💬</span>
+            <span>ອື່ນໆ</span>
+          </div>
+        </div>
+        <input type="hidden" id="threadCat" value="other" />
       </div>
-      <button class="btn btn-primary full-width" onclick="submitThread()">ໂພສກະທູ້</button>
+
+      <!-- STEP 2: ຫົວຂໍ້ -->
+      <div class="create-step">
+        <div class="step-label"><span class="step-num">2</span> ລະບຸຫົວຂໍ້ຂອງກະທູ້</div>
+        <div class="step-hint">ຕົວຢ່າງ: "ລອງລະດົມຄວາມຄິດກ່ຽວກັບເກມທີ່ດີທີ່ສຸດໃນປີ 2025"</div>
+        <input type="text" id="threadTitle" class="input-field" placeholder="ຫົວຂໍ້ກະທູ້ຂອງທ່ານ..." maxlength="150" />
+        <div class="char-count"><span id="titleCount">0</span>/150</div>
+      </div>
+
+      <!-- STEP 3: ລາຍລະອຽດ -->
+      <div class="create-step">
+        <div class="step-label"><span class="step-num">3</span> ຂຽນລາຍລະອຽດຂອງໂພສ</div>
+        <div class="step-hint">ອະທິບາຍລາຍລະອຽດ, ຄຳຖາມ ຫຼື ສິ່ງທີ່ຢາກສົນທະນາ</div>
+        <textarea id="threadBody" class="input-field" rows="6" placeholder="ຂຽນລາຍລະອຽດທີ່ນີ້..."></textarea>
+      </div>
+
+      <!-- STEP 4: ຮູບ -->
+      <div class="create-step">
+        <div class="step-label"><span class="step-num">4</span> ແນບຮູບພາບ (ທາງເລືອກ)</div>
+        <div class="image-upload-area">
+          <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="previewImage(event)" />
+          <button class="upload-btn" onclick="document.getElementById('imageInput').click()">📷 ເລືອກຮູບ</button>
+          <img id="imagePreview" class="image-preview hidden" />
+          <button id="removeImg" class="remove-img hidden" onclick="removeImage()">✕ ລຶບຮູບ</button>
+        </div>
+      </div>
+
+      <div class="create-actions">
+        <button class="btn btn-secondary" onclick="closeCreateModal()">ຍົກເລີກ</button>
+        <button class="btn btn-primary" onclick="submitThread()">🚀 ໂພສກະທູ້</button>
+      </div>
     </div>
   </div>
 
