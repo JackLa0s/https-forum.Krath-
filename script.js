@@ -118,7 +118,7 @@ function renderThreads(search = '') {
     div.innerHTML = `
       <div class="thread-card-top"><span class="cat-badge ${t.category||'other'}">${catLabel(t.category)}</span></div>
       <h3>${escHtml(t.title)}</h3>
-      <p class="thread-preview">${escHtml(t.body)}</p>
+      <p class="thread-preview">${escHtml(t.body.replace(/<[^>]+>/g, ""))}</p>
       ${t.image ? `<img src="${t.image}" class="thread-img-preview" />` : ''}
       <div class="thread-card-bottom">${avHtml}<span>${escHtml(t.author)}</span><span>·</span><span>${t.date}</span><span>·</span><span>💬 ${comments}</span><span>·</span><span>👁 ${t.views||0}</span></div>
     `;
@@ -166,7 +166,7 @@ function viewThread(id) {
       <div style="margin-bottom:1rem"><span class="cat-badge ${t.category||'other'}">${catLabel(t.category)}</span></div>
       <h1 class="detail-title">${escHtml(t.title)}</h1>
       <div class="detail-meta">${avHtml}<span><strong>${escHtml(t.author)}</strong></span><span>·</span><span>${t.date}</span><span>·</span><span>👁 ${t.views||0}</span></div>
-      <div class="detail-body">${escHtml(t.body)}</div>
+      <div class="detail-body">${t.body}</div>
       ${t.image ? `<img src="${t.image}" class="detail-img" />` : ''}
       <div class="detail-actions">
         ${t.author === profile.name
@@ -228,6 +228,20 @@ window.deleteThread = (id) => {
   showPage('home');
 };
 
+// ===== RICH TEXT EDITOR =====
+window.edCmd = (cmd, val = null) => {
+  document.getElementById('threadBodyEditor').focus();
+  document.execCommand(cmd, false, val);
+};
+window.edInsertLink = () => {
+  const url = prompt('ໃສ່ URL:');
+  if (url) document.execCommand('createLink', false, url);
+};
+window.edInsertImg = () => {
+  const url = prompt('ໃສ່ URL ຮູບ:');
+  if (url) document.execCommand('insertImage', false, url);
+};
+
 window.selectCat = (el) => {
   document.querySelectorAll('.cat-select-item').forEach(i => i.classList.remove('selected'));
   el.classList.add('selected');
@@ -252,6 +266,8 @@ window.openCreateModal = () => {
   document.getElementById('threadTitle').value = '';
   document.getElementById('threadBody').value = '';
   document.getElementById('titleCount').textContent = '0';
+  const editor = document.getElementById('threadBodyEditor');
+  if (editor) editor.innerHTML = '';
   // reset category selection
   document.querySelectorAll('.cat-select-item').forEach(i => i.classList.remove('selected'));
   document.getElementById('threadCat').value = 'other';

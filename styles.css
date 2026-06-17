@@ -185,3 +185,15 @@ body { font-family: 'Noto Sans Lao', 'Sarabun', sans-serif; background: var(--bg
 .create-actions { display: flex; justify-content: flex-end; gap: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: 0.5rem; }
 
 @media (max-width: 480px) { .cat-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* RICH TEXT EDITOR */
+.editor-wrap { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 0.75rem; }
+.editor-toolbar { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 0.5rem 0.6rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+.tb-btn { background: none; border: 1px solid transparent; color: var(--text); padding: 0.3rem 0.5rem; border-radius: 5px; cursor: pointer; font-family: inherit; font-size: 0.85rem; min-width: 30px; transition: all 0.15s; }
+.tb-btn:hover { background: var(--border); border-color: var(--border); }
+.tb-btn:active { background: var(--primary); color: white; }
+.tb-sep { width: 1px; height: 20px; background: var(--border); margin: 0 0.2rem; }
+.tb-select { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 0.25rem 0.4rem; border-radius: 5px; font-family: inherit; font-size: 0.8rem; cursor: pointer; }
+.editor-content { min-height: 180px; padding: 0.9rem 1rem; color: var(--text); font-family: inherit; font-size: 0.95rem; line-height: 1.7; outline: none; background: var(--bg3); }
+.editor-content:empty:before { content: attr(data-placeholder); color: var(--text3); pointer-events: none; }
+.editor-content:focus { background: var(--bg2); }

@@ -160,7 +160,46 @@
       <div class="create-step">
         <div class="step-label"><span class="step-num">3</span> ຂຽນລາຍລະອຽດຂອງໂພສ</div>
         <div class="step-hint">ອະທິບາຍລາຍລະອຽດ, ຄຳຖາມ ຫຼື ສິ່ງທີ່ຢາກສົນທະນາ</div>
-        <textarea id="threadBody" class="input-field" rows="6" placeholder="ຂຽນລາຍລະອຽດທີ່ນີ້..."></textarea>
+        <div class="editor-wrap">
+          <div class="editor-toolbar">
+            <button type="button" class="tb-btn" onclick="edCmd('undo')" title="Undo">↩</button>
+            <button type="button" class="tb-btn" onclick="edCmd('redo')" title="Redo">↪</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" onclick="edCmd('bold')" title="ຕົວໜາ"><b>B</b></button>
+            <button type="button" class="tb-btn" onclick="edCmd('italic')" title="ຕົວເອນ"><i>I</i></button>
+            <button type="button" class="tb-btn" onclick="edCmd('underline')" title="ຂີດເສັ້ນໃຕ້"><u>U</u></button>
+            <button type="button" class="tb-btn" onclick="edCmd('strikeThrough')" title="ຂີດຄ້ານ"><s>S</s></button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" onclick="edCmd('justifyLeft')" title="ຊ້າຍ">≡←</button>
+            <button type="button" class="tb-btn" onclick="edCmd('justifyCenter')" title="ກາງ">≡</button>
+            <button type="button" class="tb-btn" onclick="edCmd('justifyRight')" title="ຂວາ">≡→</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" onclick="edInsertLink()" title="ລິ້ງ">🔗</button>
+            <button type="button" class="tb-btn" onclick="edInsertImg()" title="ຮູບ">🖼</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" onclick="edCmd('superscript')" title="ເລກຍົກ">A²</button>
+            <button type="button" class="tb-btn" onclick="edCmd('subscript')" title="ເລກລຸ່ມ">A₂</button>
+            <div class="tb-sep"></div>
+            <select class="tb-select" onchange="edCmd('fontSize', this.value); this.value=''">
+              <option value="">ຂະໜາດ</option>
+              <option value="1">ນ້ອຍ</option>
+              <option value="3">ປົກກະຕິ</option>
+              <option value="5">ໃຫຍ່</option>
+              <option value="7">ໃຫຍ່ຫຼາຍ</option>
+            </select>
+            <select class="tb-select" onchange="edCmd('foreColor', this.value); this.value=''">
+              <option value="">ສີ</option>
+              <option value="#ffffff">⬜ ຂາວ</option>
+              <option value="#ff6b6b">🔴 ແດງ</option>
+              <option value="#ffd166">🟡 ເຫລືອງ</option>
+              <option value="#4ecca3">🟢 ຂຽວ</option>
+              <option value="#4db8ff">🔵 ຟ້າ</option>
+              <option value="#c084fc">🟣 ມ່ວງ</option>
+            </select>
+          </div>
+          <div id="threadBodyEditor" class="editor-content" contenteditable="true" data-placeholder="ຂຽນລາຍລະອຽດທີ່ນີ້..."></div>
+        </div>
+        <textarea id="threadBody" style="display:none"></textarea>
       </div>
 
       <!-- STEP 4: ຮູບ -->
