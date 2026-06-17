@@ -180,11 +180,51 @@ function viewThread(id) {
       <div id="commentList">
         ${comments.map(c => {
           const cav = c.authorAvatar?.startsWith('data:') ? `<img src="${c.authorAvatar}" style="width:24px;height:24px;border-radius:50%;object-fit:cover">` : `<span>${c.authorAvatar||'👤'}</span>`;
-          return `<div class="comment"><div class="comment-top">${cav}<span class="comment-author">${escHtml(c.author)}</span><span class="comment-date">${c.date}</span></div><div class="comment-text">${escHtml(c.text)}</div>${c.image?`<img src="${c.image}" class="comment-img">`:''}</div>`;
+          return `<div class="comment"><div class="comment-top">${cav}<span class="comment-author">${escHtml(c.author)}</span><span class="comment-date">${c.date}</span></div><div class="comment-text">${c.text}</div>${c.image?`<img src="${c.image}" class="comment-img">`:''}</div>`;
         }).join('')}
       </div>
       <div class="add-comment">
-        <textarea id="commentText" class="input-field" rows="3" placeholder="ຂຽນຄວາມເຫັນ..."></textarea>
+        <div class="editor-wrap">
+          <div class="editor-toolbar">
+            <button type="button" class="tb-btn" data-cmd="undo" onclick="cEdCmd('undo')" title="Undo">↩</button>
+            <button type="button" class="tb-btn" data-cmd="redo" onclick="cEdCmd('redo')" title="Redo">↪</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" data-cmd="bold" onclick="cEdCmd('bold')"><b>B</b></button>
+            <button type="button" class="tb-btn" data-cmd="italic" onclick="cEdCmd('italic')"><i>I</i></button>
+            <button type="button" class="tb-btn" data-cmd="underline" onclick="cEdCmd('underline')"><u>U</u></button>
+            <button type="button" class="tb-btn" data-cmd="strikeThrough" onclick="cEdCmd('strikeThrough')"><s>S</s></button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" data-cmd="justifyLeft" onclick="cEdCmd('justifyLeft')">≡←</button>
+            <button type="button" class="tb-btn" data-cmd="justifyCenter" onclick="cEdCmd('justifyCenter')">≡</button>
+            <button type="button" class="tb-btn" data-cmd="justifyRight" onclick="cEdCmd('justifyRight')">≡→</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" onclick="cEdInsertLink()" title="ລິ້ງ">🔗</button>
+            <div class="tb-sep"></div>
+            <button type="button" class="tb-btn" data-cmd="superscript" onclick="cEdCmd('superscript')">A²</button>
+            <button type="button" class="tb-btn" data-cmd="subscript" onclick="cEdCmd('subscript')">A₂</button>
+            <div class="tb-sep"></div>
+            <select class="tb-select" onchange="cEdCmd('fontSize', this.value); this.selectedIndex=0;">
+              <option value="" disabled selected>ຂະໜາດ</option>
+              <option value="1">ນ້ອຍ</option>
+              <option value="3">ປົກກະຕິ</option>
+              <option value="5">ໃຫຍ່</option>
+              <option value="7">ໃຫຍ່ຫຼາຍ</option>
+            </select>
+            <select class="tb-select" onchange="cEdCmd('foreColor', this.value); this.selectedIndex=0;">
+              <option value="" disabled selected>ສີ</option>
+              <option value="#ffffff">⬜ ຂາວ</option>
+              <option value="#ff6b6b">🔴 ແດງ</option>
+              <option value="#ffd166">🟡 ເຫລືອງ</option>
+              <option value="#4ecca3">🟢 ຂຽວ</option>
+              <option value="#4db8ff">🔵 ຟ້າ</option>
+              <option value="#c084fc">🟣 ມ່ວງ</option>
+            </select>
+          </div>
+          <div id="commentEditor" class="editor-content" contenteditable="true"
+               data-placeholder="ຂຽນຄວາມເຫັນທີ່ນີ້..."
+               onkeyup="updateCToolbar()" onmouseup="updateCToolbar()"
+               style="min-height:100px"></div>
+        </div>
         <div class="comment-img-upload">
           <input type="file" id="commentImgInput" accept="image/*" style="display:none" />
           <button class="upload-btn" onclick="document.getElementById('commentImgInput').click()">📷 ແນບຮູບ</button>
@@ -202,15 +242,36 @@ function viewThread(id) {
   });
 }
 
+// Comment editor helpers
+window.cEdCmd = (cmd, val = null) => {
+  document.getElementById('commentEditor').focus();
+  document.execCommand(cmd, false, val);
+  updateCToolbar();
+};
+window.cEdInsertLink = () => {
+  const url = prompt('ໃສ່ URL:');
+  if (url) { document.getElementById('commentEditor').focus(); document.execCommand('createLink', false, url); }
+};
+const C_TB_CMDS = ['bold','italic','underline','strikeThrough','superscript','subscript','justifyLeft','justifyCenter','justifyRight'];
+window.updateCToolbar = () => {
+  const toolbar = document.querySelector('#commentsSection .editor-toolbar');
+  if (!toolbar) return;
+  C_TB_CMDS.forEach(cmd => {
+    const btn = toolbar.querySelector(`[data-cmd="${cmd}"]`);
+    if (btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+  });
+};
+
 window.submitComment = (threadId) => {
-  const text = document.getElementById('commentText').value.trim();
-  if (!text) { alert('ກະລຸນາຂຽນຄວາມເຫັນ'); return; }
+  const editor = document.getElementById('commentEditor');
+  const text = editor ? editor.innerHTML.trim() : '';
+  if (!text || text === '') { alert('ກະລຸນາຂຽນຄວາມເຫັນ'); return; }
   const img = window._commentImgPending?.();
   const av = profile.avatar?.startsWith('data:') ? profile.avatar : (profile.avatar||'👤');
   const c = { author: profile.name, authorAvatar: av, date: new Date().toLocaleDateString('lo-LA'), text };
   if (img) c.image = img;
   push(ref(db, `threads/${threadId}/comments`), c);
-  document.getElementById('commentText').value = '';
+  if (editor) editor.innerHTML = '';
   window._clearCommentImg?.();
   const p = document.getElementById('commentImgPreview'); if (p) p.classList.add('hidden');
   document.getElementById('commentImgInput').value = '';
