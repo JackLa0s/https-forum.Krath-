@@ -286,9 +286,19 @@ document.addEventListener('DOMContentLoaded', () => {
 window.closeCreateModal = () => document.getElementById('createModal').classList.add('hidden');
 
 window.submitThread = () => {
+  // ค้นหาฟังก์ชันนี้ในไฟล์ script.js เดิมของคุณ
+function submitThread() {
   const title = document.getElementById('threadTitle').value.trim();
-  const body = document.getElementById('threadBody').value.trim();
   const cat = document.getElementById('threadCat').value;
+  
+  /* -----------------------------------------------------------
+     ลบบรรทัดเดิม: const body = document.getElementById('threadBody').value.trim();
+     แล้วเปลี่ยนมาใช้บรรทัดด้านล่างนี้แทนครับ:
+  ----------------------------------------------------------- */
+  const body = document.getElementById('threadBodyEditor').innerHTML.trim();
+
+  // ... ส่วนโค้ด Firebase และโค้ดอื่นๆ ที่เหลือด้านล่างในฟังก์ชันนี้ ให้ปล่อยไว้เหมือนเดิมได้เลย ...
+}
   if (!title || !body) { alert('ກະລຸນາກອกຫົວຂໍ້ ແລະ ເນື້ອຫາ'); return; }
   const av = profile.avatar?.startsWith('data:') ? profile.avatar : (profile.avatar||'👤');
   const t = { title, body, category: cat, author: profile.name, authorAvatar: av, date: new Date().toLocaleDateString('lo-LA'), timestamp: Date.now(), views: 0 };
