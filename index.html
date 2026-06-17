@@ -162,23 +162,23 @@
         <div class="step-hint">ອະທິບາຍລາຍລະອຽດ, ຄຳຖາມ ຫຼື ສິ່ງທີ່ຢາກສົນທະນາ</div>
         <div class="editor-wrap">
           <div class="editor-toolbar">
-            <button type="button" class="tb-btn" onclick="edCmd('undo')" title="Undo">↩</button>
-            <button type="button" class="tb-btn" onclick="edCmd('redo')" title="Redo">↪</button>
+            <button type="button" class="tb-btn" data-cmd="undo" onclick="edCmd('undo')" title="Undo">↩</button>
+            <button type="button" class="tb-btn" data-cmd="redo" onclick="edCmd('redo')" title="Redo">↪</button>
             <div class="tb-sep"></div>
-            <button type="button" class="tb-btn" onclick="edCmd('bold')" title="ຕົວໜາ"><b>B</b></button>
-            <button type="button" class="tb-btn" onclick="edCmd('italic')" title="ຕົວເອນ"><i>I</i></button>
-            <button type="button" class="tb-btn" onclick="edCmd('underline')" title="ຂີດເສັ້ນໃຕ້"><u>U</u></button>
-            <button type="button" class="tb-btn" onclick="edCmd('strikeThrough')" title="ຂີດຄ້ານ"><s>S</s></button>
+            <button type="button" class="tb-btn" data-cmd="bold" onclick="edCmd('bold')" title="ຕົວໜາ"><b>B</b></button>
+            <button type="button" class="tb-btn" data-cmd="italic" onclick="edCmd('italic')" title="ຕົວເອນ"><i>I</i></button>
+            <button type="button" class="tb-btn" data-cmd="underline" onclick="edCmd('underline')" title="ຂີດເສັ້ນໃຕ້"><u>U</u></button>
+            <button type="button" class="tb-btn" data-cmd="strikeThrough" onclick="edCmd('strikeThrough')" title="ຂີດຄ້ານ"><s>S</s></button>
             <div class="tb-sep"></div>
-            <button type="button" class="tb-btn" onclick="edCmd('justifyLeft')" title="ຊ້າຍ">≡←</button>
-            <button type="button" class="tb-btn" onclick="edCmd('justifyCenter')" title="ກາງ">≡</button>
-            <button type="button" class="tb-btn" onclick="edCmd('justifyRight')" title="ຂວາ">≡→</button>
+            <button type="button" class="tb-btn" data-cmd="justifyLeft" onclick="edCmd('justifyLeft')" title="ຊ້າຍ">≡←</button>
+            <button type="button" class="tb-btn" data-cmd="justifyCenter" onclick="edCmd('justifyCenter')" title="ກາງ">≡</button>
+            <button type="button" class="tb-btn" data-cmd="justifyRight" onclick="edCmd('justifyRight')" title="ຂວາ">≡→</button>
             <div class="tb-sep"></div>
             <button type="button" class="tb-btn" onclick="edInsertLink()" title="ລິ້ງ">🔗</button>
             <button type="button" class="tb-btn" onclick="edInsertImg()" title="ຮູບ">🖼</button>
             <div class="tb-sep"></div>
-            <button type="button" class="tb-btn" onclick="edCmd('superscript')" title="ເລກຍົກ">A²</button>
-            <button type="button" class="tb-btn" onclick="edCmd('subscript')" title="ເລກລຸ່ມ">A₂</button>
+            <button type="button" class="tb-btn" data-cmd="superscript" onclick="edCmd('superscript')" title="ເລກຍົກ">A²</button>
+            <button type="button" class="tb-btn" data-cmd="subscript" onclick="edCmd('subscript')" title="ເລກລຸ່ມ">A₂</button>
             <div class="tb-sep"></div>
             <select class="tb-select" onchange="edCmd('fontSize', this.value); this.selectedIndex=0;">
               <option value="" disabled selected>ຂະໜາດ</option>
@@ -197,7 +197,7 @@
               <option value="#c084fc">🟣 ມ່ວງ</option>
             </select>
           </div>
-          <div id="threadBodyEditor" class="editor-content" contenteditable="true" data-placeholder="ຂຽນລາຍລະອຽດທີ່ນີ້..."></div>
+          <div id="threadBodyEditor" class="editor-content" contenteditable="true" onkeyup="updateToolbarState()" onmouseup="updateToolbarState()" data-placeholder="ຂຽນລາຍລະອຽດທີ່ນີ້..."></div>
         </div>
         <textarea id="threadBody" style="display:none"></textarea>
       </div>

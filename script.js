@@ -229,9 +229,19 @@ window.deleteThread = (id) => {
 };
 
 // ===== RICH TEXT EDITOR =====
+const TB_TOGGLE_CMDS = ['bold','italic','underline','strikeThrough','superscript','subscript','justifyLeft','justifyCenter','justifyRight'];
+
+function updateToolbarState() {
+  TB_TOGGLE_CMDS.forEach(cmd => {
+    const btn = document.querySelector(`.tb-btn[data-cmd="${cmd}"]`);
+    if (btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+  });
+}
+
 window.edCmd = (cmd, val = null) => {
   document.getElementById('threadBodyEditor').focus();
   document.execCommand(cmd, false, val);
+  updateToolbarState();
 };
 window.edInsertLink = () => {
   const url = prompt('ໃສ່ URL:');
