@@ -180,15 +180,15 @@
             <button type="button" class="tb-btn" onclick="edCmd('superscript')" title="ເລກຍົກ">A²</button>
             <button type="button" class="tb-btn" onclick="edCmd('subscript')" title="ເລກລຸ່ມ">A₂</button>
             <div class="tb-sep"></div>
-            <select class="tb-select" onchange="edCmd('fontSize', this.value); this.value=''">
-              <option value="">ຂະໜາດ</option>
+            <select class="tb-select" onchange="edCmd('fontSize', this.value); this.selectedIndex=0;">
+              <option value="" disabled selected>ຂະໜາດ</option>
               <option value="1">ນ້ອຍ</option>
               <option value="3">ປົກກະຕິ</option>
               <option value="5">ໃຫຍ່</option>
               <option value="7">ໃຫຍ່ຫຼາຍ</option>
             </select>
-            <select class="tb-select" onchange="edCmd('foreColor', this.value); this.value=''">
-              <option value="">ສີ</option>
+            <select class="tb-select" onchange="edCmd('foreColor', this.value); this.selectedIndex=0;">
+              <option value="" disabled selected>ສີ</option>
               <option value="#ffffff">⬜ ຂາວ</option>
               <option value="#ff6b6b">🔴 ແດງ</option>
               <option value="#ffd166">🟡 ເຫລືອງ</option>

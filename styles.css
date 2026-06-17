@@ -197,10 +197,10 @@ body { font-family: 'Noto Sans Lao', 'Sarabun', sans-serif; background: var(--bg
 .editor-toolbar { 
   background: var(--bg3); 
   border-bottom: 1px solid var(--border); 
-  padding: 0.5rem; 
+  padding: 0.3rem 0.4rem; 
   display: flex; 
   flex-wrap: wrap; 
-  gap: 4px; /* ลดช่องว่างให้ปุ่มชิดกันและเรียงต่อกันสวยงาม */
+  gap: 2px;
   align-items: center; 
 }
 
@@ -208,12 +208,13 @@ body { font-family: 'Noto Sans Lao', 'Sarabun', sans-serif; background: var(--bg
   background: var(--bg2); 
   border: 1px solid var(--border); 
   color: var(--text); 
-  padding: 0.4rem 0.6rem; 
+  padding: 0.2rem 0.4rem; 
   border-radius: 4px; 
   cursor: pointer; 
   font-family: inherit; 
-  font-size: 0.85rem; 
-  min-width: 32px; 
+  font-size: 0.78rem; 
+  min-width: 26px;
+  height: 26px;
   transition: all 0.15s;
   display: inline-flex;
   align-items: center;
@@ -232,20 +233,21 @@ body { font-family: 'Noto Sans Lao', 'Sarabun', sans-serif; background: var(--bg
 
 .tb-sep { 
   width: 1px; 
-  height: 20px; 
+  height: 16px; 
   background: var(--border); 
-  margin: 0 0.25rem; 
+  margin: 0 0.15rem; 
 }
 
 .tb-select { 
   background: var(--bg2); 
   border: 1px solid var(--border); 
   color: var(--text); 
-  padding: 0.35rem 0.5rem; 
+  padding: 0.15rem 0.3rem; 
   border-radius: 4px; 
   font-family: inherit; 
-  font-size: 0.85rem; 
-  cursor: pointer; 
+  font-size: 0.78rem; 
+  cursor: pointer;
+  height: 26px;
 }
 
 .editor-content { 
