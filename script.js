@@ -228,6 +228,12 @@ window.deleteThread = (id) => {
   showPage('home');
 };
 
+window.selectCat = (el) => {
+  document.querySelectorAll('.cat-select-item').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('threadCat').value = el.dataset.val;
+};
+
 window.openCreateModal = () => {
   pendingImage = null;
   document.getElementById('imagePreview').classList.add('hidden');
@@ -235,8 +241,22 @@ window.openCreateModal = () => {
   document.getElementById('imageInput').value = '';
   document.getElementById('threadTitle').value = '';
   document.getElementById('threadBody').value = '';
+  document.getElementById('titleCount').textContent = '0';
+  // reset category selection
+  document.querySelectorAll('.cat-select-item').forEach(i => i.classList.remove('selected'));
+  document.getElementById('threadCat').value = 'other';
   document.getElementById('createModal').classList.remove('hidden');
 };
+
+// Title character counter
+document.addEventListener('DOMContentLoaded', () => {
+  const titleInput = document.getElementById('threadTitle');
+  if (titleInput) {
+    titleInput.addEventListener('input', () => {
+      document.getElementById('titleCount').textContent = titleInput.value.length;
+    });
+  }
+});
 window.closeCreateModal = () => document.getElementById('createModal').classList.add('hidden');
 
 window.submitThread = () => {
@@ -414,6 +434,52 @@ function renderNews() {
 
 // Load news on startup for home page
 loadNews();
+
+// ===== URL SEARCH PARAMS =====
+// Support ?q=keyword for search, ?cat=game for category, ?id=threadId for direct thread
+function handleURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  const cat = params.get('cat');
+  const id = params.get('id');
+
+  if (id) {
+    // Wait for threads to load then open thread
+    const wait = setInterval(() => {
+      if (Object.keys(allThreads).length > 0) {
+        clearInterval(wait);
+        if (allThreads[id]) viewThread(id);
+      }
+    }, 300);
+    return;
+  }
+
+  if (cat) {
+    filterCategory(cat);
+  }
+
+  if (q) {
+    document.getElementById('searchInput').value = q;
+    const wait = setInterval(() => {
+      if (Object.keys(allThreads).length > 0) {
+        clearInterval(wait);
+        renderThreads(q);
+        showPage('home');
+      }
+    }, 300);
+  }
+}
+
+// Update URL when searching
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const q = e.target.value;
+  const url = new URL(window.location.href);
+  if (q) url.searchParams.set('q', q);
+  else url.searchParams.delete('q');
+  window.history.replaceState({}, '', url);
+});
+
+handleURLParams();
 
 function escHtml(text) {
   if (!text) return '';
